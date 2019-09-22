@@ -10,16 +10,19 @@ https.get('https://www.wodeshucheng.com/book_72800/35393506.html', function (res
     response.on('data', function (data) {
         arr.push(data);
         length += data.length;
-    })
-    response.on('end', function () {
+    }).on('end', function () {
         // 解决数据乱码问题
         var data = Buffer.concat(arr, length);
         var change_data = iconvLite.decode(data, 'gb2312');
         var $ = cheerio.load(change_data.toString());
-        console.log($('.reader').html());
-    })
-
-    response.on('error', function (error) {
+        try {
+            fs.appendFileSync('wodeshuchengHttps.txt', $('.reader').text());
+            console.log('数据已追加到文件');
+        } catch (err) {
+            /* 处理错误 */
+        }
+        // console.log($('.reader').html());
+    }).on('error', function (error) {
         console.log(error.message);
     })
 })  
