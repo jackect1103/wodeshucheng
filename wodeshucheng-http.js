@@ -1,9 +1,10 @@
 var https = require('https');
+var http = require('http');
 var cheerio = require('cheerio');
 var fs = require('fs');
 var iconvLite = require('iconv-lite');
 
-https.get('https://www.wodeshucheng.com/book_72800/35393506.html', function (response) {
+http.get('http://www.xbiquge.la/13/13959/5939025.html', function (response) {
     var html = '';
     var length = 0;
     var arr = [];
@@ -16,7 +17,7 @@ https.get('https://www.wodeshucheng.com/book_72800/35393506.html', function (res
         var change_data = iconvLite.decode(data, 'gb2312');
         var $ = cheerio.load(change_data.toString());
         try {
-            fs.appendFileSync('wodeshuchengHttps.txt', $('.reader').text());
+            fs.appendFileSync('wodeshuchengHttps.txt', $.html());
             console.log('数据已追加到文件');
         } catch (err) {
             /* 处理错误 */
